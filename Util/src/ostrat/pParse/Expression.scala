@@ -13,26 +13,26 @@ trait Expr extends TokenOrBlock with ExprMember
 trait ExprCompound extends Expr with TextSpanCompound
 
 trait ExprSeq extends ExprCompound
-{ def exprs: Arr[Expr]
+{ def exprs: Refs[Expr]
 }
 
 /** A Token that is an Expression. Most tokens are expressions, but some are not such as braces, commas and semicolons. */
 trait ExprToken extends Expr with ExprMemberToken
 
 trait StatementSeq extends ExprSeq
-{ def statements: Arr[Statement]
-  def exprs = statements.map(_.expr)
+{ def statements: Refs[Statement]
+  def exprs: Refs[Expr] = statements.map(_.expr)
   def startMem = statements.head
   def endMem = statements.last
 }
 
-case class FileStatements(statements: Arr[Statement]) extends StatementSeq
+case class FileStatements(statements: Refs[Statement]) extends StatementSeq
 { def exprName: String = "FileStatements"
 //  def startPosn: TextPosn = statements.head.startPosn
   //def endPosn: TextPosn = statements.last.endPosn
 }
 
-case class StringStatements(statements: Arr[Statement]) extends StatementSeq
+case class StringStatements(statements: Refs[Statement]) extends StatementSeq
 { def exprName: String = "StringStatements"
   //def startPosn: TextPosn = statements.head.startPosn
   //def endPosn: TextPosn = statements.last.endPosn

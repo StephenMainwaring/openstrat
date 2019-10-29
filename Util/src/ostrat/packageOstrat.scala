@@ -7,6 +7,7 @@ package object ostrat extends LowPriority
 { import collection.immutable.ArraySeq, collection.mutable.ArrayBuffer, reflect.ClassTag
   type Arr[A] = ArraySeq[A]
   type Buff[A] = ArrayBuffer[A]
+  type ERefs[A <: AnyRef] = EMon[Refs[A]]
   type EMonList[A] = EMon[List[A]]
   type EMonArr[A] = EMon[Arr[A]]
   type ArrMulti[A] = Arr[Multiple[A]]

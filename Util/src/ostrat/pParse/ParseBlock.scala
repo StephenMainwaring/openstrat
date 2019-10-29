@@ -19,14 +19,14 @@ sealed trait BracketToken extends Token
 sealed trait BracketOpen extends BracketToken
 {
    def matchingBracket(bc: BracketClose): Boolean
-   def newBracketBlock(cb: BracketClose, statements: Arr[Statement]): BracketBlock
+   def newBracketBlock(cb: BracketClose, statements: Refs[Statement]): BracketBlock
 }
 sealed trait BracketClose extends BracketToken
 
 case class ParenthOpen(startPosn: TextPosn) extends BracketOpen  
 { def srcStr = "("
   override def matchingBracket(bc: BracketClose): Boolean = bc.isInstanceOf[ParenthClose]
-  override def newBracketBlock(cb: BracketClose, statements: Arr[Statement]): BracketBlock = (ParenthBlock(statements, this, cb))
+  override def newBracketBlock(cb: BracketClose, statements: Refs[Statement]): BracketBlock = (ParenthBlock(statements, this, cb))
   override def tokenTypeStr: String = "ParenthOpenToken"
 }
 
@@ -66,7 +66,7 @@ sealed trait BracketBlock extends StatementSeq
  //  def endPosn: TextPosn = endBracket.endPosn
 }
 
-case class ParenthBlock(statements: Arr[Statement], startBracket: BracketOpen, endBracket: BracketClose) extends BracketBlock
+case class ParenthBlock(statements: Refs[Statement], startBracket: BracketOpen, endBracket: BracketClose) extends BracketBlock
 { override def exprName: String = "ParenthBlock" }
 
 case class SquareBlock(statements: Arr[Statement], startBracket: BracketOpen, endBracket: BracketClose) extends BracketBlock
