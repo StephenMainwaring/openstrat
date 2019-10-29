@@ -39,7 +39,7 @@ object ArrBuilder
     override def buffImut(buff: DblBuff): Dbls = new Dbls(buff.buffer.toArray)
   }
 
-  implicit def refsImplicit[A <: AnyRef](implicit ct: ClassTag[A]): ArrBuilder[A] = new ArrBuilder[A]
+  /*implicit def refsImplicit[A <: AnyRef](implicit ct: ClassTag[A]): ArrBuilder[A] = new ArrBuilder[A]
   { type ImutT = Refs[A]
     type BuffT = RefsBuff[A]
     override def imutNew(length: Int): Refs[A] = new Refs(new Array[A](length))
@@ -47,5 +47,5 @@ object ArrBuilder
     override def buffNew(length: Int = 4): RefsBuff[A] = new RefsBuff(new ArrayBuffer[A](length))
     override def buffAppend(buff: RefsBuff[A], value: A): Unit = buff.buffer.append(value)
     override def buffImut(buff: RefsBuff[A]): Refs[A] = new Refs(buff.buffer.toArray)
-  }
+  }*/
 }

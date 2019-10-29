@@ -18,7 +18,7 @@ class StringImplicit(val thisString: String) extends AnyVal //extends PersistStr
   def findTypeDo[A: Persist](f: A => Unit): Unit = findType[A].foreach(f)
 
   def asType[A](implicit ev: Persist[A]): EMon[A] = parseToStatements.flatMap(sts => sts match
-    { case Arr(h) => ev.fromStatement(h).elseTry(ev.fromStatements(sts))
+    { case Refs1(h) => ev.fromStatement(h).elseTry(ev.fromStatements(sts))
       case sts => ev.fromStatements(sts)
     })
   def asInt: EMon[Int] = asType[Int]
