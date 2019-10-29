@@ -21,7 +21,7 @@ trait ExprToken extends Expr with ExprMemberToken
 
 trait StatementSeq extends ExprSeq
 { def statements: Refs[Statement]
-  def exprs: Refs[Expr] = statements.map(_.expr)
+  def exprs: Refs[Expr] = statements.map(_.expr).asInstanceOf[Refs[Expr]]
   def startMem = statements.head
   def endMem = statements.last
 }
@@ -38,7 +38,7 @@ case class StringStatements(statements: Refs[Statement]) extends StatementSeq
   //def endPosn: TextPosn = statements.last.endPosn
 }
 
-case class ClausesExpr(exprs: Arr[Expr]) extends ExprSeq
+case class ClausesExpr(exprs: Refs[Expr]) extends ExprSeq
 { def startMem = exprs.head
   def endMem = exprs.last
   override def exprName: String = "Claused Expr"

@@ -5,7 +5,7 @@ import pParse._
 trait UnShow[+T]
 { def typeStr: String
   def fromExpr(expr: Expr): EMon[T]  
-  def fromClauses(clauses: Arr[Clause]): EMon[T]
+  def fromClauses(clauses: Refs[Clause]): EMon[T]
   
   /** Trys to build an object of type T from the statement. Not sure if this is useful. */
   final def fromStatement(st: Statement): EMon[T] = fromExpr(st.expr)

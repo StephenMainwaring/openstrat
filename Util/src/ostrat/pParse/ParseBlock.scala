@@ -38,7 +38,7 @@ case class ParenthClose(startPosn: TextPosn) extends BracketClose
 case class SquareOpen(startPosn: TextPosn) extends BracketOpen
 { def srcStr = "["
   override def matchingBracket(bc: BracketClose): Boolean = bc.isInstanceOf[SquareClose]
-  override def newBracketBlock(cb: BracketClose, statements: Arr[Statement]): BracketBlock = (SquareBlock(statements, this, cb))
+  override def newBracketBlock(cb: BracketClose, statements: Refs[Statement]): BracketBlock = (SquareBlock(statements, this, cb))
   override def tokenTypeStr: String = "SquareOpenToken"
 }
 
@@ -50,7 +50,7 @@ case class SquareClose(startPosn: TextPosn) extends BracketClose
 case class CurlyOpen(startPosn: TextPosn) extends BracketOpen
 { def srcStr = "{"
   override def matchingBracket(bc: BracketClose): Boolean = bc.isInstanceOf[CurlyClose]
-  override def newBracketBlock(cb: BracketClose, statements: Arr[Statement]): BracketBlock = (CurlyBlock(statements, this, cb))
+  override def newBracketBlock(cb: BracketClose, statements: Refs[Statement]): BracketBlock = (CurlyBlock(statements, this, cb))
   override def tokenTypeStr: String = "CurlyOpenToken"
 }
 case class CurlyClose(startPosn: TextPosn) extends BracketClose
@@ -69,9 +69,9 @@ sealed trait BracketBlock extends StatementSeq
 case class ParenthBlock(statements: Refs[Statement], startBracket: BracketOpen, endBracket: BracketClose) extends BracketBlock
 { override def exprName: String = "ParenthBlock" }
 
-case class SquareBlock(statements: Arr[Statement], startBracket: BracketOpen, endBracket: BracketClose) extends BracketBlock
+case class SquareBlock(statements: Refs[Statement], startBracket: BracketOpen, endBracket: BracketClose) extends BracketBlock
 { override def exprName: String = "SquareBlock" }
 
-case class CurlyBlock(statements: Arr[Statement], startBracket: BracketOpen, endBracket: BracketClose) extends BracketBlock
+case class CurlyBlock(statements: Refs[Statement], startBracket: BracketOpen, endBracket: BracketClose) extends BracketBlock
 { override def exprName: String = "CurlyBlock" }
 

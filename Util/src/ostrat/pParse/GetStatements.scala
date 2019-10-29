@@ -57,8 +57,10 @@ object GetStatements
     {
       def loop(rem: List[StatementMember], acc: Buff[Clause], subAcc: List[ExprMember]): EMon[Statement] = rem match {
         case Nil if acc.isEmpty => getExpr(subAcc).map(g => MonoStatement(g, optSemi))
-        case Nil if subAcc.isEmpty => Good(ClausedStatement(acc.toArr, optSemi))
-        case Nil => getExpr(subAcc).map(g => ClausedStatement(acc.arrAppend(Clause(g, nullRef)), optSemi))
+        case Nil if subAcc.isEmpty => Good(ClausedStatement(acc.toRefs, optSemi))
+        case Nil => getExpr(subAcc).map(g =>
+          ClausedStatement(acc.arrAppend(
+            Clause(g, nullRef)), optSemi))
         case (ct: CommaToken) :: tail if subAcc.isEmpty => loop(tail, acc :+ EmptyClause(ct), Nil)
         case (ct: CommaToken) :: tail => getExpr(subAcc).flatMap(g => loop(tail, acc :+ Clause(g, Opt(ct)), Nil))
         case (em: ExprMember) :: tail => loop(tail, acc, subAcc :+ em)
