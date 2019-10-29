@@ -41,12 +41,12 @@ object GetStatements
     }
 
     def statementLoop(rem: List[BlockMember], acc: Buff[Statement], subAcc: Buff[StatementMember]): ERefs[Statement] = rem match
-    { case Seq() if subAcc.isEmpty => Good(acc)//.map(_.toArr)
-      case Seq() => getStatement(subAcc, nullRef).map(acc :+ _)//.map(_.toArr)
+    { case Seq() if subAcc.isEmpty => Good(acc.toRefs)//.map(_.toArr)
+      case Seq() => getStatement(subAcc.toList, nullRef).map(acc :+ _)//.map(_.toArr)
 
       case h :: tail => h match {
         case st: SemicolonToken if subAcc.isEmpty => statementLoop(tail, acc :+ EmptyStatement(st), Buff())
-        case st: SemicolonToken => getStatement(subAcc, Opt(st)).flatMap(g
+        case st: SemicolonToken => getStatement(subAcc.toList, Opt(st)).flatMap(g
           => statementLoop(tail, acc :+ g, Buff()))
         case sm: StatementMember => statementLoop(tail, acc, subAcc :+ sm)
         case u => excep("Statement Loop, impossible case")
