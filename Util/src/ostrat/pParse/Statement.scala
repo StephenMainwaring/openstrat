@@ -128,7 +128,7 @@ object Statement
  *  on the last Clauses is optional. */
 case class ClausedStatement(clauses: Refs[Clause], optSemi: Opt[SemicolonToken]) extends Statement with TextSpanCompound
 {
-  def expr: Expr = ClausesExpr(clauses.map(_.expr))
+  def expr: Expr = ??? //ClausesExpr(clauses.map(_.expr))
   def startMem: TextSpan = clauses.head
   def endMem: TextSpan = optSemi.fold[TextSpan](clauses.last, st => st)
   override def errGet[A](implicit ev: Persist[A]): EMon[A] = ev.fromClauses(clauses)

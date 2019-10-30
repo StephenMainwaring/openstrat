@@ -44,12 +44,12 @@ case class ClausesExpr(exprs: Refs[Expr]) extends ExprSeq
   override def exprName: String = "Claused Expr"
 }
 
-case class UnimplementedExpr(bMems: Arr[BlockMember]) extends ExprCompound
+case class UnimplementedExpr(bMems: Refs[BlockMember]) extends ExprCompound
 { def startMem = bMems.head
   def endMem = bMems.last
   override def exprName: String = "UnimplementedExpr"
 }
-case class AlphaBracketExpr(name: AlphaToken, blocks: Arr[BracketBlock]) extends ExprCompound
+case class AlphaBracketExpr(name: AlphaToken, blocks: Refs[BracketBlock]) extends ExprCompound
 { def startMem = name
   def endMem = blocks.last
   override def exprName: String = "AlphaBracketExpr"  
