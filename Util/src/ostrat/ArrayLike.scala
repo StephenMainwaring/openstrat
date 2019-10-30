@@ -14,10 +14,12 @@ trait ArrayLike[+A] extends Any
   def apply(index: Int): A
   def head: A = apply(0)
   def last: A = apply(length - 1)
-  def empty: Boolean
+  def empty: Boolean = length <= 0
   def nonEmpty: Boolean = length > 0
   def ifEmpty[B](vEmpty: => B, vNonEmpty: => B): B = if (length == 0) vEmpty else vNonEmpty
-  def toArraySeq(implicit ct: ClassTag[A] @uncheckedVariance): ArraySeq[A] =
+
+  /** transitional method to be removed. */
+  @deprecated def toArraySeq(implicit ct: ClassTag[A] @uncheckedVariance): ArraySeq[A] =
   { val newArray: Array[A] = new Array[A](length)
     iForeach((v, i) => newArray(i) = v)
     ArraySeq.unsafeWrapArray(newArray)
@@ -43,6 +45,9 @@ trait ArrayLike[+A] extends Any
     iForeach((a, i) => ev.imutSet(res, i, f(a)))
     res
   }
+
+  def eMap[B](f: A => EMon[B])(implicit ev: ArrBuilder[B]): EMon[ev.ImutT] = ???
+
   /** map 2 elements of A to 1 element of B. Ignores the last element on a collection of odd numbered length. */
   def map2To1[B](f: (A, A) => B)(implicit ev: ArrBuilder[B]): ev.ImutT =
   { val res = ev.imutNew(length)

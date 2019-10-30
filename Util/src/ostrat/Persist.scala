@@ -157,8 +157,8 @@ object Persist
 
     override def fromExpr(expr: Expr): EMon[Array[Int]] = expr match
     { case SemicolonToken(_) => Good(Array[Int]())
-      case AlphaBracketExpr(AlphaToken(_, "Seq"), Refs2(SquareBlock(ts, _, _), ParenthBlock(sts, _, _))) =>
-        sts.eMonMap[Int](_.errGet[Int](evA)).map(_.toArray)
+      case AlphaBracketExpr(AlphaToken(_, "Seq"), Refs2(SquareBlock(ts, _, _), ParenthBlock(sts, _, _))) => ???
+        //sts.eMap[Int](_.errGet[Int](evA)).map(_.array)
       case e => bad1(expr, "Unknown Exoression for Seq")
     }
   }
@@ -171,8 +171,8 @@ object Persist
 
     override def fromExpr(expr: Expr): EMon[Arr[Int]] = expr match
     { case SemicolonToken(_) => Good(Arr[Int]())
-      case AlphaBracketExpr(AlphaToken(_, "Seq"), Refs2(SquareBlock(ts, _, _), ParenthBlock(sts, _, _))) =>
-        sts.eMonMap[Int](_.errGet[Int](evA)).map(_.toArr)
+      case AlphaBracketExpr(AlphaToken(_, "Seq"), Refs2(SquareBlock(ts, _, _), ParenthBlock(sts, _, _))) => ???
+        //sts.eMap[Int](_.errGet[Int](evA)).map(_.toArr)
       case e => bad1(expr, "Unknown Exoression for Seq")
     }
   }
