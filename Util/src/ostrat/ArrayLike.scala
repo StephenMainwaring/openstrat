@@ -8,12 +8,13 @@ trait ArrBuff[A] extends Any with ArrayLike[A]
 /** Base trait for Arr and  ArrBuff. */
 trait ArrayLike[+A] extends Any
 { type ThisT <: ArrayLike[A]
-
   def returnThis: ThisT = ???
   def length: Int
+  def lenStr: String = length.toString
   def apply(index: Int): A
   def head: A = apply(0)
   def last: A = apply(length - 1)
+  def empty: Boolean
   def nonEmpty: Boolean = length > 0
   def ifEmpty[B](vEmpty: => B, vNonEmpty: => B): B = if (length == 0) vEmpty else vNonEmpty
   def toArraySeq(implicit ct: ClassTag[A] @uncheckedVariance): ArraySeq[A] =

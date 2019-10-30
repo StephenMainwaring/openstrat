@@ -44,8 +44,8 @@ object GetStatements
     { case Nil if subAcc.isEmpty => Good(acc.toRefs)//.map(_.toArr)
       case Nil => getStatement(subAcc.toList, nullRef).map(acc :+ _).map(_.toRefs)
 
-      case h :: tail => h match {
-        case st: SemicolonToken if subAcc.isEmpty => statementLoop(tail, acc :+ EmptyStatement(st), Buff())
+      case h :: tail => h match
+      { case st: SemicolonToken if subAcc.isEmpty => statementLoop(tail, acc :+ EmptyStatement(st), Buff())
         case st: SemicolonToken => getStatement(subAcc.toList, Opt(st)).flatMap(g
           => statementLoop(tail, acc :+ g, Buff()))
         case sm: StatementMember => statementLoop(tail, acc, subAcc :+ sm)
@@ -85,7 +85,7 @@ object GetStatements
     { case Nil => prefixPlus(acc.toList, Buff())
       case (at: AlphaToken) :: (bb: BracketBlock) :: t2 => { //typedSpan needs removal */
         val (blocks, tail) = rem.tail.typedSpan[BracketBlock](_.isInstanceOf[BracketBlock])
-        sortBlocks(tail, acc :+ AlphaBracketExpr(at, blocks.toRefs))
+        sortBlocks(tail, acc :+ AlphaBracketExpr(at, blocks.toImut.asInstanceOf[Refs[BracketBlock]]))
       }
       case h :: tail => sortBlocks(tail, acc :+ h)
     }
